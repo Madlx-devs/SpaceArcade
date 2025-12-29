@@ -16,6 +16,7 @@ public class OverlayScreen extends JLayeredPane {
         setLayout(null);
         setOpaque(false);
         setBounds(0, 0, GamePanel.WIDTH, GamePanel.HEIGHT);
+        setHealth(health);
     }
 
     public static OverlayScreen getLayeredPanel() {
