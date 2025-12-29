@@ -12,8 +12,6 @@ public class Main {
 
         JFrame window = new JFrame();
         window.getContentPane().add(getGamePanel());
-        JLayeredPane jLayeredPane= OverlayScreen.getLayeredPanel();
-        //window.getContentPane().add(jLayeredPane);
         window.pack();
         window.setResizable(false);
         window.setVisible(true);
