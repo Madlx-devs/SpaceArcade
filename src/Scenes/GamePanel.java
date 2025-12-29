@@ -30,19 +30,21 @@ public  class GamePanel extends JPanel implements CollisionDetection,Runnable {
     PlayerKeyHandler keyHandler;
 
 
+
     private GamePanel(){
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         this.setDoubleBuffered(true);
+        this.setLayout(null);
+
         keyHandler= new PlayerKeyHandler();
         this.addKeyListener(keyHandler);
         this.setFocusable(true);
         this.requestFocusInWindow();
         this.bulletHandling=new BulletHandling();
         this.addMouseListener(bulletHandling);
-
+        add(OverlayScreen.getLayeredPanel());
         enemyShip = new EnemyShip();
         playerShip=new PlayerShip(this.keyHandler);
-
         bullet=new Bullet(bulletHandling);
         bullet.setX(playerShip.getX()+bullet.getWidth());
         bullet.setY(playerShip.getY()/2);
