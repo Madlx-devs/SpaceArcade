@@ -1,4 +1,3 @@
-import Scenes.OverlayScreen;
 
 import javax.swing.*;
 
