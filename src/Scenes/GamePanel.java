@@ -95,6 +95,7 @@ public  class GamePanel extends JPanel implements CollisionDetection,Runnable {
             while (delta >= 1) {
                 update();
                 delta--;
+
             }
             if(detectCollision(playerShip,enemyShip)){
                 gameThread=null;
