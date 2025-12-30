@@ -9,6 +9,7 @@ public class OverlayScreen extends JLayeredPane {
 
     public static final int WIDTH = 1080;
     public static final int HEIGHT = 80;
+    public int point =0;
 
     private int health = 100;
 
@@ -34,11 +35,9 @@ public class OverlayScreen extends JLayeredPane {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-
-        g.setColor(Color.RED);
+        g.setColor(Color.getHSBColor(243,254,233));
         int barWidth = (int) (200 * (health / 100.0));
-
-        // top-right corner
+        g.drawString(String.valueOf(point),10,10);
         g.fillRect(GamePanel.WIDTH - 220, 20, barWidth, 20);
     }
 }

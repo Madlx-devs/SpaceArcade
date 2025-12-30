@@ -1,10 +1,12 @@
 package Assets;
 
+import Scenes.GamePanel;
 import utils.BulletHandling;
 import utils.Collidable;
 import utils.PlayerKeyHandler;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Objects;
@@ -56,6 +58,11 @@ public class Bullet  implements Collidable {
     public void update(){
         if(bulletHandling.shooting){
             x+=4;
+            if(x> GamePanel.WIDTH)x=0;
         }
+    }
+
+    public void draw(Graphics2D g2D){
+        g2D.drawImage(bulletImage,x,y,getWidth(),getHeight(),null);
     }
 }

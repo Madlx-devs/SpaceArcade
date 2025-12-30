@@ -36,9 +36,7 @@ public class BulletHandling implements KeyListener , MouseListener {
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        if(e.getButton()==MouseEvent.BUTTON1){
-            shooting=false;
-        }
+
     }
 
     @Override

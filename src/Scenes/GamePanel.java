@@ -67,8 +67,8 @@ public  class GamePanel extends JPanel implements CollisionDetection,Runnable {
         Graphics2D g2 = (Graphics2D)(g);
         g2.drawImage(backgroundImage,0,0,WIDTH, HEIGHT,null);
         HealthBar.draw(g2);
-        playerShip.draw(g2);
-        enemyShip.draw(g2);
+        paint(g2);
+
     }
 
     public static GamePanel getGamePanel() {
@@ -109,6 +109,7 @@ public  class GamePanel extends JPanel implements CollisionDetection,Runnable {
     public void update(){
         enemyShip.update();
         playerShip.update();
+        bullet.update();
     }
 
     @Override
@@ -118,5 +119,11 @@ public  class GamePanel extends JPanel implements CollisionDetection,Runnable {
                 entity1.getX() + entity1.getWidth() > entity2.getX() &&
                 entity1.getY() < entity2.getY() + entity2.getHeight() &&
                 entity1.getY() + entity1.getHeight() > entity2.getY();
+    }
+    public void paint(Graphics2D g2){
+        playerShip.draw(g2);
+        enemyShip.draw(g2);
+        bullet.draw(g2);
+
     }
 }
