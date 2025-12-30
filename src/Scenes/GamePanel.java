@@ -5,7 +5,6 @@ import Assets.EnemyShip;
 import Assets.HealthBar;
 import Assets.PlayerShip;
 import utils.BulletHandling;
-import utils.Collidable;
 import utils.CollisionDetection;
 import utils.PlayerKeyHandler;
 
@@ -112,14 +111,7 @@ public  class GamePanel extends JPanel implements CollisionDetection,Runnable {
         bullet.update();
     }
 
-    @Override
-    public <T extends Collidable, U extends Collidable>
-    boolean detectCollision(T entity1, U entity2) {
-        return entity1.getX() < entity2.getX() + entity2.getWidth() &&
-                entity1.getX() + entity1.getWidth() > entity2.getX() &&
-                entity1.getY() < entity2.getY() + entity2.getHeight() &&
-                entity1.getY() + entity1.getHeight() > entity2.getY();
-    }
+
     public void paint(Graphics2D g2){
         playerShip.draw(g2);
         enemyShip.draw(g2);
