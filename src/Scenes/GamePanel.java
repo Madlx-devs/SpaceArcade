@@ -26,20 +26,25 @@ public  class GamePanel extends JPanel implements CollisionDetection,Runnable {
     BulletHandling bulletHandling;
     private BufferedImage backgroundImage;
     PlayerKeyHandler keyHandler;
+     int hitCount =0;
 
 
 
     private GamePanel(){
+        //
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         this.setDoubleBuffered(true);
         this.setLayout(null);
-
-        keyHandler= new PlayerKeyHandler();
-        this.addKeyListener(keyHandler);
         this.setFocusable(true);
         this.requestFocusInWindow();
+
+        //keyHandling && mouseHandling
+        keyHandler= new PlayerKeyHandler();
+        this.addKeyListener(keyHandler);
         this.bulletHandling=new BulletHandling();
         this.addMouseListener(bulletHandling);
+
+        //added assets
         add(OverlayScreen.getLayeredPanel());
         enemyShip = new EnemyShip();
         playerShip=new PlayerShip(this.keyHandler);
@@ -47,6 +52,8 @@ public  class GamePanel extends JPanel implements CollisionDetection,Runnable {
         bullet.setX(playerShip.getX()+bullet.getWidth());
         bullet.setY(playerShip.getY()/2);
         loadImage();
+
+        //game thread
         gameThread=new Thread(this);
         gameThread.start();
     }
@@ -60,14 +67,12 @@ public  class GamePanel extends JPanel implements CollisionDetection,Runnable {
           e.printStackTrace();
       }
      }
-
-    public void paintComponent(Graphics g){
+    @Override
+    protected void paintComponent(Graphics g){
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)(g);
         g2.drawImage(backgroundImage,0,0,WIDTH, HEIGHT,null);
-        HealthBar.draw(g2);
-        paint(g2);
-
+        render(g2);
     }
 
     public static GamePanel getGamePanel() {
@@ -85,7 +90,6 @@ public  class GamePanel extends JPanel implements CollisionDetection,Runnable {
         long lastTime = System.nanoTime();
         double delta = 0;
 
-
         while (gameThread != null) {
 
             long now = System.nanoTime();
@@ -97,13 +101,21 @@ public  class GamePanel extends JPanel implements CollisionDetection,Runnable {
                 delta--;
 
             }
-            if(detectCollision(playerShip,enemyShip)){
-                gameThread=null;
-                System.out.println("game over press space to restart game");
-            }
-            repaint();
+            if(detectCollision(playerShip,enemyShip)) {
+                if(hitCount==0){
+                    HealthBar.updateHealth();
+                    System.out.println(HealthBar.HEALTH);
+                    hitCount++;
+                }
+                else{
+                    hitCount=0;
+                }
 
+            }
+
+            repaint();
         }
+        System.out.println(HealthBar.HEALTH);
     }
 
     public void update(){
@@ -113,10 +125,9 @@ public  class GamePanel extends JPanel implements CollisionDetection,Runnable {
     }
 
 
-    public void paint(Graphics2D g2){
+    public void render(Graphics2D g2){
         playerShip.draw(g2);
         enemyShip.draw(g2);
         bullet.draw(g2);
-
     }
 }
