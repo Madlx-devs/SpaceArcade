@@ -18,6 +18,7 @@ import java.util.Objects;
 public  class GamePanel extends JPanel implements CollisionDetection,Runnable {
     public static  final int WIDTH =1080;
     public static final int HEIGHT =560;
+    //game panel object
     private static GamePanel gamePanel=null;
     Thread gameThread;
     PlayerShip playerShip ;
@@ -26,7 +27,9 @@ public  class GamePanel extends JPanel implements CollisionDetection,Runnable {
     BulletHandling bulletHandling;
     private BufferedImage backgroundImage;
     PlayerKeyHandler keyHandler;
-     int hitCount =0;
+    int hitCount =0;
+    private static  boolean collided = false;
+    //
 
 
 
@@ -45,7 +48,7 @@ public  class GamePanel extends JPanel implements CollisionDetection,Runnable {
         this.addMouseListener(bulletHandling);
 
         //added assets
-        add(OverlayScreen.getLayeredPanel());
+        //add(OverlayScreen.getLayeredPanel());
         enemyShip = new EnemyShip();
         playerShip=new PlayerShip(this.keyHandler);
         bullet=new Bullet(bulletHandling);
@@ -102,20 +105,12 @@ public  class GamePanel extends JPanel implements CollisionDetection,Runnable {
 
             }
             if(detectCollision(playerShip,enemyShip)) {
-                if(hitCount==0){
-                    HealthBar.updateHealth();
-                    System.out.println(HealthBar.HEALTH);
-                    hitCount++;
-                }
-                else{
-                    hitCount=0;
-                }
-
+                System.out.println("collision detected");
+                HealthBar.updateHealth();
             }
 
             repaint();
         }
-        System.out.println(HealthBar.HEALTH);
     }
 
     public void update(){
@@ -129,5 +124,6 @@ public  class GamePanel extends JPanel implements CollisionDetection,Runnable {
         playerShip.draw(g2);
         enemyShip.draw(g2);
         bullet.draw(g2);
+        HealthBar.draw(g2);
     }
 }

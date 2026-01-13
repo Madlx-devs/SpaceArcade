@@ -16,6 +16,8 @@ import java.awt.*;
     }
 
     public static void updateHealth(){
+
         if(HEALTH>0) HEALTH-=10;
+
     }
 }
