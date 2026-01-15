@@ -27,10 +27,8 @@ public  class GamePanel extends JPanel implements CollisionDetection,Runnable {
     BulletHandling bulletHandling;
     private BufferedImage backgroundImage;
     PlayerKeyHandler keyHandler;
-    int hitCount =0;
-    private static  boolean collided = false;
-    //
-
+    boolean isColliding =false;
+    int score = 0;
 
 
     private GamePanel(){
@@ -51,9 +49,7 @@ public  class GamePanel extends JPanel implements CollisionDetection,Runnable {
         //add(OverlayScreen.getLayeredPanel());
         enemyShip = new EnemyShip();
         playerShip=new PlayerShip(this.keyHandler);
-        bullet=new Bullet(bulletHandling);
-        bullet.setX(playerShip.getX()+bullet.getWidth());
-        bullet.setY(playerShip.getY()/2);
+        bullet=new Bullet(bulletHandling , playerShip);
         loadImage();
 
         //game thread
@@ -93,7 +89,7 @@ public  class GamePanel extends JPanel implements CollisionDetection,Runnable {
         long lastTime = System.nanoTime();
         double delta = 0;
 
-        while (gameThread != null) {
+        while (!HealthBar.CheckDeath()) {
 
             long now = System.nanoTime();
             delta += (now - lastTime) / NS_PER_UPDATE;
@@ -104,19 +100,26 @@ public  class GamePanel extends JPanel implements CollisionDetection,Runnable {
                 delta--;
 
             }
-            if(detectCollision(playerShip,enemyShip)) {
-                System.out.println("collision detected");
-                HealthBar.updateHealth();
-            }
 
+            if(detectCollision(playerShip,enemyShip)&!isColliding) {
+                HealthBar.updateHealth();
+                isColliding =true;
+            }
+            else if(!detectCollision(playerShip,enemyShip)){
+                isColliding =false;
+
+            }
             repaint();
+
         }
+
     }
 
     public void update(){
         enemyShip.update();
         playerShip.update();
         bullet.update();
+       // updateScore();
     }
 
 
@@ -126,4 +129,12 @@ public  class GamePanel extends JPanel implements CollisionDetection,Runnable {
         bullet.draw(g2);
         HealthBar.draw(g2);
     }
+
+    void updateScore(){
+      if(detectCollision( bullet , enemyShip )){
+          score+=10;
+      }
+        System.out.println("the current score is" + score );
+    }
+
 }
