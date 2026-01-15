@@ -15,12 +15,16 @@ public class Bullet  implements Collidable {
     BulletHandling bulletHandling;
     int x ,y,height,width;
     BufferedImage bulletImage;
+    PlayerShip playerShip;
 
-    public Bullet(BulletHandling bulletHandling){
+    public Bullet(BulletHandling bulletHandling , PlayerShip playerShip){
         this.width=24;
         this.bulletHandling=bulletHandling;
         this.height=24;
+        this.playerShip=playerShip;
+        setDefaultValues();
         setImage();
+
     }
     @Override
     public int getY() {
@@ -42,10 +46,10 @@ public class Bullet  implements Collidable {
         return height;
     }
     public void setX(int x){
-        this.x=x;
+        this.x=playerShip.getX()+ bulletImage.getWidth()+100;
     }
     public void setY(int y){
-       this.y=y;
+       this.y=playerShip.getY()- bulletImage.getHeight();
     }
     public void setImage(){
         try {
@@ -56,13 +60,23 @@ public class Bullet  implements Collidable {
     }
 
     public void update(){
+        UpdateBulletLocation();
         if(bulletHandling.shooting){
             x+=4;
-            if(x> GamePanel.WIDTH)x=0;
+            if(x>GamePanel.WIDTH)x=0;
         }
     }
 
     public void draw(Graphics2D g2D){
         g2D.drawImage(bulletImage,x,y,getWidth(),getHeight(),null);
+    }
+
+    public void setDefaultValues(){
+        this.x =playerShip.getX()+this.width;
+        this.y =playerShip.getY()/2;
+    }
+    public void UpdateBulletLocation(){
+         setX(playerShip.getX()+this.width);
+         setY( playerShip.getY()/2);
     }
 }
