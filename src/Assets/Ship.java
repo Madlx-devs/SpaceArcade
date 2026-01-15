@@ -6,7 +6,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public  class Ship implements Collidable {
-    protected int x, y,height=60,width=60,shootRate,speed=4;
+    protected int x, y,height=60,width=60,speed=4;
 
     BufferedImage bufferedImage;
 
@@ -25,7 +25,7 @@ public  class Ship implements Collidable {
     }
 
     @Override
-    public int getY() {
+    public  int getY() {
         return y;
     }
 
