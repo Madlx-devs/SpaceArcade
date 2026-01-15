@@ -15,6 +15,5 @@ public class Main {
         window.setResizable(false);
         window.setVisible(true);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
     }
 }
