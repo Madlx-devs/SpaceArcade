@@ -5,19 +5,29 @@ import Scenes.GamePanel;
 import java.awt.*;
 
  public  class HealthBar {
-    public static int HEALTH =100;
+    public static int HEALTH =20;
+    public static boolean playerDead = false;
 
     public static void draw(Graphics2D g2D){
-        final int HEIGHT =20;
-        int width = (int) (200 * (HEALTH / 100.0));
+        final int HEIGHT =15;
+        int width = (int) (100 * (HEALTH / 100.0));
 
         g2D.setColor(Color.red);
         g2D.fillRect(0,0,width,20);
+    }
+    public HealthBar(){
+
     }
 
     public static void updateHealth(){
 
         if(HEALTH>0) HEALTH-=10;
 
+    }
+    public static boolean CheckDeath(){
+        if(HEALTH==0){
+            playerDead=true;
+        }
+        return playerDead;
     }
 }
