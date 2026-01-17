@@ -1,11 +1,13 @@
 package utils;
 
+import Assets.HealthBar;
+import Scenes.GamePanel;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public  class PlayerKeyHandler implements KeyListener {
-    public boolean upPressed, downPressed, leftPressed,rightPressed ;
-
+    public boolean upPressed, downPressed, leftPressed,rightPressed , restart;
 
 
     @Override
@@ -27,7 +29,9 @@ public  class PlayerKeyHandler implements KeyListener {
         if(code==KeyEvent.VK_RIGHT){
             rightPressed=true;
         }
-
+        if(code==KeyEvent.VK_SPACE) {
+            restart=true;
+        }
 
     }
 

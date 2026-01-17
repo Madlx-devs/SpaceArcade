@@ -7,6 +7,7 @@ import Assets.PlayerShip;
 import utils.BulletHandling;
 import utils.CollisionDetection;
 import utils.PlayerKeyHandler;
+import utils.RestartHandler;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -15,19 +16,23 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Objects;
 
-public  class GamePanel extends JPanel implements CollisionDetection,Runnable {
+public class GamePanel extends JPanel implements CollisionDetection,Runnable {
     public static  final int WIDTH =1080;
     public static final int HEIGHT =560;
+
+
+
     //game panel object
     private static GamePanel gamePanel=null;
     Thread gameThread;
     PlayerShip playerShip ;
     EnemyShip enemyShip;
     Bullet bullet;
+    RestartHandler restartHandler;
     BulletHandling bulletHandling;
     private BufferedImage backgroundImage;
     PlayerKeyHandler keyHandler;
-    boolean isColliding =false;
+    public  boolean isColliding =false;
     int score = 0;
 
 
@@ -42,11 +47,12 @@ public  class GamePanel extends JPanel implements CollisionDetection,Runnable {
         //keyHandling && mouseHandling
         keyHandler= new PlayerKeyHandler();
         this.addKeyListener(keyHandler);
+        restartHandler=new RestartHandler();
+        this.addKeyListener(restartHandler);
         this.bulletHandling=new BulletHandling();
         this.addMouseListener(bulletHandling);
 
         //added assets
-        //add(OverlayScreen.getLayeredPanel());
         enemyShip = new EnemyShip();
         playerShip=new PlayerShip(this.keyHandler);
         bullet=new Bullet(bulletHandling , playerShip);
@@ -66,6 +72,8 @@ public  class GamePanel extends JPanel implements CollisionDetection,Runnable {
           e.printStackTrace();
       }
      }
+
+     //painting the components
     @Override
     protected void paintComponent(Graphics g){
         super.paintComponent(g);
@@ -73,7 +81,11 @@ public  class GamePanel extends JPanel implements CollisionDetection,Runnable {
         g2.drawImage(backgroundImage,0,0,WIDTH, HEIGHT,null);
         render(g2);
     }
-
+   /*
+    Static factory method
+    returns a singleton instance of the GamePanel class
+    follows singleton design pattern
+    */
     public static GamePanel getGamePanel() {
         if(gamePanel==null){
             gamePanel= new GamePanel();
@@ -119,9 +131,7 @@ public  class GamePanel extends JPanel implements CollisionDetection,Runnable {
         enemyShip.update();
         playerShip.update();
         bullet.update();
-       // updateScore();
     }
-
 
     public void render(Graphics2D g2){
         playerShip.draw(g2);
@@ -134,7 +144,9 @@ public  class GamePanel extends JPanel implements CollisionDetection,Runnable {
       if(detectCollision( bullet , enemyShip )){
           score+=10;
       }
-        System.out.println("the current score is" + score );
     }
 
+    void restart(){
+
+    }
 }
