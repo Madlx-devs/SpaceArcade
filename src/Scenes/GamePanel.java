@@ -55,7 +55,7 @@ public class GamePanel extends JPanel implements CollisionDetection,Runnable {
         //added assets
         enemyShip = new EnemyShip();
         playerShip=new PlayerShip(this.keyHandler);
-        bullet=new Bullet(bulletHandling , playerShip);
+        bullet = new Bullet(bulletHandling);
         loadImage();
 
         //game thread
@@ -65,12 +65,12 @@ public class GamePanel extends JPanel implements CollisionDetection,Runnable {
 
 
      void loadImage(){
-      try{
-         backgroundImage= ImageIO.read(
-                 Objects.requireNonNull(getClass().getResourceAsStream("/images/scene.png")));
-      } catch (IOException e) {
-          e.printStackTrace();
-      }
+         try {
+             backgroundImage= ImageIO.read(
+                     Objects.requireNonNull(getClass().getResourceAsStream("/images/scene.png")));
+         } catch (IOException e) {
+             throw new RuntimeException(e);
+         }
      }
 
      //painting the components
@@ -101,7 +101,7 @@ public class GamePanel extends JPanel implements CollisionDetection,Runnable {
         long lastTime = System.nanoTime();
         double delta = 0;
 
-        while (!HealthBar.CheckDeath()) {
+        while (!HealthBar.CheckDeath()){
 
             long now = System.nanoTime();
             delta += (now - lastTime) / NS_PER_UPDATE;
@@ -147,6 +147,8 @@ public class GamePanel extends JPanel implements CollisionDetection,Runnable {
     }
 
     void restart(){
-
+     int score =0;
+     playerShip.setDefaultValues();
+     gameThread = new Thread(this);
     }
 }

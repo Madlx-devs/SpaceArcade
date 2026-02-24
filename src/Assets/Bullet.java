@@ -1,9 +1,7 @@
 package Assets;
 
-import Scenes.GamePanel;
 import utils.BulletHandling;
 import utils.Collidable;
-import utils.PlayerKeyHandler;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -11,72 +9,58 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Objects;
 
-public class Bullet  implements Collidable {
-    BulletHandling bulletHandling;
-    int x ,y,height,width;
-    BufferedImage bulletImage;
-    PlayerShip playerShip;
+public  class Bullet implements Collidable {
+    private  final int height =24;
+    private  final int Width =24;
+    private int y;
+    private int x;
+    private BufferedImage bufferedImage;
 
-    public Bullet(BulletHandling bulletHandling , PlayerShip playerShip){
-        this.width=24;
-        this.bulletHandling=bulletHandling;
-        this.height=24;
-        this.playerShip=playerShip;
-        setDefaultValues();
-        setImage();
-
+    public int getHeight() {
+        return height;
     }
+
+    public Bullet( BulletHandling bulletHandler) {
+        this.x=100;
+        this.y=300;
+        setImage();
+    }
+
+
     @Override
     public int getY() {
-        return y;
+        return 0;
     }
 
     @Override
     public int getX() {
-        return x;
+        return 0;
     }
 
     @Override
     public int getWidth() {
-        return width;
+        return 0;
     }
 
-    @Override
-    public int getHeight() {
-        return height;
+    public void setY(int y) {
+        this.y = y;
     }
-    public void setX(int x){
-        this.x=playerShip.getX()+ bulletImage.getWidth()+100;
+
+    public void setX(int x) {
+        this.x = x;
     }
-    public void setY(int y){
-       this.y=playerShip.getY()- bulletImage.getHeight();
-    }
-    public void setImage(){
+
+    private void setImage()  {
         try {
-            bulletImage= ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/images/bullet.png")));
+            bufferedImage= ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/images/Bullet.png")));
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
-
+    public void draw(Graphics2D graphics2D){
+        graphics2D.drawImage(bufferedImage,getX(),getY(),getWidth(),getHeight(),null);
+    }
     public void update(){
-        UpdateBulletLocation();
-        if(bulletHandling.shooting){
-            x+=4;
-            if(x>GamePanel.WIDTH)x=0;
-        }
-    }
-
-    public void draw(Graphics2D g2D){
-        g2D.drawImage(bulletImage,x,y,getWidth(),getHeight(),null);
-    }
-
-    public void setDefaultValues(){
-        this.x =playerShip.getX()+this.width;
-        this.y =playerShip.getY()/2;
-    }
-    public void UpdateBulletLocation(){
-         setX(playerShip.getX()+this.width);
-         setY( playerShip.getY()/2);
+        this.x+=3;
     }
 }
