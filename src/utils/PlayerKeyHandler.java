@@ -1,8 +1,5 @@
 package utils;
 
-import Assets.HealthBar;
-import Scenes.GamePanel;
-
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 

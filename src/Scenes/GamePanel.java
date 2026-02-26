@@ -2,7 +2,7 @@ package Scenes;
 
 import Assets.Bullet;
 import Assets.EnemyShip;
-import Assets.HealthBar;
+import Assets.Health;
 import Assets.PlayerShip;
 import utils.BulletHandling;
 import utils.CollisionDetection;
@@ -23,7 +23,7 @@ public class GamePanel extends JPanel implements CollisionDetection,Runnable {
 
 
     //game panel object
-    private static GamePanel gamePanel=null;
+    private static GamePanel gamePanel;
     Thread gameThread;
     PlayerShip playerShip ;
     EnemyShip enemyShip;
@@ -32,7 +32,7 @@ public class GamePanel extends JPanel implements CollisionDetection,Runnable {
     BulletHandling bulletHandling;
     private BufferedImage backgroundImage;
     PlayerKeyHandler keyHandler;
-    private   boolean isColliding =false;
+    Health health;
     int score = 0;
 
 
@@ -57,6 +57,7 @@ public class GamePanel extends JPanel implements CollisionDetection,Runnable {
         enemyShip = new EnemyShip();
         playerShip=new PlayerShip(this.keyHandler);
         bullet = new Bullet(bulletHandling);
+        health=new Health();
         loadImage();
 
         //game thread
@@ -102,7 +103,7 @@ public class GamePanel extends JPanel implements CollisionDetection,Runnable {
         long lastTime = System.nanoTime();
         double delta = 0;
 
-        while (!HealthBar.CheckDeath()){
+        while (gameThread!=null){
 
             long now = System.nanoTime();
             delta += (now - lastTime) / NS_PER_UPDATE;
@@ -114,9 +115,10 @@ public class GamePanel extends JPanel implements CollisionDetection,Runnable {
 
             }
 
-            while(detectCollision(playerShip,enemyShip)) {
-                HealthBar.updateHealth();
-            }
+//            while(detectCollision(playerShip,enemyShip)) {
+//                Health.updateHealth();
+//                repaint();
+//            }
             repaint();
         }
     }
@@ -131,7 +133,8 @@ public class GamePanel extends JPanel implements CollisionDetection,Runnable {
         playerShip.draw(g2);
         enemyShip.draw(g2);
         bullet.draw(g2);
-        HealthBar.draw(g2);
+        health.draw(g2);
+
     }
 
     void updateScore(){
@@ -141,7 +144,7 @@ public class GamePanel extends JPanel implements CollisionDetection,Runnable {
     }
 
     void restart(){
-     int score =0;
+        score =0;
      playerShip.setDefaultValues();
      gameThread = new Thread(this);
     }
