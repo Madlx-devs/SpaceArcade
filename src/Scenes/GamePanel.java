@@ -32,8 +32,9 @@ public class GamePanel extends JPanel implements CollisionDetection,Runnable {
     BulletHandling bulletHandling;
     private BufferedImage backgroundImage;
     PlayerKeyHandler keyHandler;
-    public  boolean isColliding =false;
+    private   boolean isColliding =false;
     int score = 0;
+
 
 
     private GamePanel(){
@@ -113,18 +114,11 @@ public class GamePanel extends JPanel implements CollisionDetection,Runnable {
 
             }
 
-            if(detectCollision(playerShip,enemyShip)&!isColliding) {
+            while(detectCollision(playerShip,enemyShip)) {
                 HealthBar.updateHealth();
-                isColliding =true;
-            }
-            else if(!detectCollision(playerShip,enemyShip)){
-                isColliding =false;
-
             }
             repaint();
-
         }
-
     }
 
     public void update(){

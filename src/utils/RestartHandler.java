@@ -14,10 +14,9 @@ public class RestartHandler implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         int code =e.getKeyCode();
-        if(code==KeyEvent.VK_SPACE){
-            System.out.println("space is pressed");
-            restartPressed=true;
-        }
+        if(code==KeyEvent.VK_SPACE)
+             restartPressed=true;
+
     }
 
     @Override

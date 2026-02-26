@@ -5,8 +5,8 @@ import Scenes.GamePanel;
 import java.awt.*;
 
  public  class HealthBar {
-    public static int HEALTH =10;
-    public  static boolean playerDead = false;
+    public static int HEALTH =100;
+    public static boolean playerDead = false;
 
     public static void draw(Graphics2D g2D){
         final int HEIGHT =15;
