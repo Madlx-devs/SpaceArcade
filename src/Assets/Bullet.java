@@ -44,12 +44,12 @@ public  class Bullet implements Collidable {
     public int getWidth() {
         return width ;
     }
-    public void setY(int y) {
-        this.y = y;
+    public void setY() {
+        this.y = playerShip.getY();
     }
 
-    public void setX(int x) {
-        this.x = x;
+    public void setX() {
+        this.x = playerShip.getX();
     }
 
     private void setImage()  {
