@@ -2,9 +2,12 @@ package Assets;
 
 
 
+import Scenes.GamePanel;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 import static Scenes.GamePanel.*;
 
@@ -44,7 +47,9 @@ public class EnemyShip extends Ship {
 
     @Override
     public void draw(Graphics2D g2D) {
-        g2D.drawImage(bufferedImage,x,y,width,height,null);
+        long time =100000000L;
+        long l = System.nanoTime();
+            g2D.drawImage(bufferedImage,x, HEIGHT-(int)Math.floor(Math.random()*100 + (int) (Math.random() * 100)),width,height,null);
     }
 
 }
