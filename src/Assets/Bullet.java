@@ -11,19 +11,22 @@ import java.util.Objects;
 
 public  class Bullet implements Collidable {
     private  final int height =24;
-    private  final int Width =24;
+    private  final int width =24;
     private int y;
     private int x;
     private BufferedImage bufferedImage;
+    private final PlayerShip playerShip;
+
 
     public int getHeight() {
         return height;
     }
 
-    public Bullet( BulletHandling bulletHandler) {
-        this.x=100;
-        this.y=300;
+    public Bullet( PlayerShip playerShip, BulletHandling bulletHandling) {
+       this.playerShip=playerShip;
         setImage();
+        update();
+
     }
 
 
@@ -39,9 +42,8 @@ public  class Bullet implements Collidable {
 
     @Override
     public int getWidth() {
-        return 0;
+        return width ;
     }
-
     public void setY(int y) {
         this.y = y;
     }
@@ -58,9 +60,11 @@ public  class Bullet implements Collidable {
         }
     }
     public void draw(Graphics2D graphics2D){
-        graphics2D.drawImage(bufferedImage,getX(),getY(),getWidth(),getHeight(),null);
+        graphics2D.drawImage(bufferedImage,playerShip.getX()+this.width, playerShip.getY()/2+width,getWidth(),getHeight(),null);
     }
     public void update(){
+        this.y= playerShip.getY()/2;
+        System.out.println(this.y);
         this.x+=3;
     }
 }

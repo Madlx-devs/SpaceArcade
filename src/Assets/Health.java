@@ -26,6 +26,9 @@ public class Health {
         }
 
         public void draw(Graphics2D g2){
-            g2.drawImage(image , GamePanel.WIDTH-48,0,48,48,null);
+            /*g2.drawString("lives",GamePanel.WIDTH, GamePanel.HEIGHT-48);*/
+            g2.drawImage(image , GamePanel.WIDTH-90,0,48,48,null);
+            g2.drawImage(image , GamePanel.WIDTH-60,0,48,48,null);
+            g2.drawImage(image , GamePanel.WIDTH-30,0,48,48,null);
         }
 }
