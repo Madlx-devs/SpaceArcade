@@ -16,14 +16,16 @@ public  class Bullet implements Collidable {
     private int x;
     private BufferedImage bufferedImage;
     private final PlayerShip playerShip;
+    private final BulletHandling bullethandler;
 
 
     public int getHeight() {
         return height;
     }
 
-    public Bullet( PlayerShip playerShip, BulletHandling bulletHandling) {
+    public Bullet( PlayerShip playerShip, BulletHandling bulletHandler) {
        this.playerShip=playerShip;
+       this.bullethandler=bulletHandler;
         setImage();
         update();
 
@@ -61,9 +63,10 @@ public  class Bullet implements Collidable {
     }
     public void draw(Graphics2D graphics2D){
         graphics2D.drawImage(bufferedImage,playerShip.getX()+this.width/2, playerShip.getY()+width,getWidth(),getHeight(),null);
+
     }
     public void update(){
-        this.y= playerShip.getY()+width;
+        //this.y= playerShip.getY()+width/2;
         this.x+=3;
     }
 }
