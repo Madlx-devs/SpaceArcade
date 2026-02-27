@@ -60,11 +60,10 @@ public  class Bullet implements Collidable {
         }
     }
     public void draw(Graphics2D graphics2D){
-        graphics2D.drawImage(bufferedImage,playerShip.getX()+this.width, playerShip.getY()/2+width,getWidth(),getHeight(),null);
+        graphics2D.drawImage(bufferedImage,playerShip.getX()+this.width/2, playerShip.getY()+width,getWidth(),getHeight(),null);
     }
     public void update(){
-        this.y= playerShip.getY()/2;
-        System.out.println(this.y);
+        this.y= playerShip.getY()+width;
         this.x+=3;
     }
 }
