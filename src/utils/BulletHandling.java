@@ -5,8 +5,17 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class BulletHandling implements KeyListener , MouseListener {
-    public boolean shooting;
+public class BulletHandling implements KeyListener  {
+    private boolean shooting;
+
+    public boolean isShooting() {
+        return shooting;
+    }
+
+    public void setShooting(boolean shooting) {
+        this.shooting = shooting;
+    }
+
     @Override
     public void keyTyped(KeyEvent e) {
 
@@ -14,38 +23,17 @@ public class BulletHandling implements KeyListener , MouseListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-
+        int code= e.getKeyCode();
+        if(code==KeyEvent.VK_SPACE){
+            setShooting(true);
+        }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-
-    }
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-      if(e.getButton()==MouseEvent.BUTTON1){
-          shooting=true;
-      }
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-
+        int code = e.getKeyCode();
+        if(code==KeyEvent.VK_SPACE){
+            setShooting(false);
+        }
     }
 }

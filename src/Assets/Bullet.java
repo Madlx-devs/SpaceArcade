@@ -17,6 +17,7 @@ public  class Bullet implements Collidable {
     private BufferedImage bufferedImage;
     private final PlayerShip playerShip;
     private final BulletHandling bullethandler;
+    private boolean shooting =false;
 
 
     public int getHeight() {
@@ -34,12 +35,12 @@ public  class Bullet implements Collidable {
 
     @Override
     public int getY() {
-        return 0;
+        return this.y;
     }
 
     @Override
     public int getX() {
-        return 0;
+        return this.x;
     }
 
     @Override
@@ -50,8 +51,8 @@ public  class Bullet implements Collidable {
         this.y = playerShip.getY();
     }
 
-    public void setX() {
-        this.x = playerShip.getX();
+    public void setX(int x) {
+        this.x = x;
     }
 
     private void setImage()  {
@@ -62,11 +63,12 @@ public  class Bullet implements Collidable {
         }
     }
     public void draw(Graphics2D graphics2D){
-        graphics2D.drawImage(bufferedImage,playerShip.getX()+this.width/2, playerShip.getY()+width,getWidth(),getHeight(),null);
+        graphics2D.drawImage(bufferedImage,getX(), playerShip.getY()+width,getWidth(),getHeight(),null);
 
     }
     public void update(){
-        //this.y= playerShip.getY()+width/2;
-        this.x+=3;
+       while (bullethandler.isShooting()){
+           setX(getX()+3);
+        }
     }
 }

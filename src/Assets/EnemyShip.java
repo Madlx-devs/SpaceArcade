@@ -47,9 +47,7 @@ public class EnemyShip extends Ship {
 
     @Override
     public void draw(Graphics2D g2D) {
-        long time =100000000L;
-        long l = System.nanoTime();
-            g2D.drawImage(bufferedImage,x, HEIGHT-(int)Math.floor(Math.random()*100 + (int) (Math.random() * 100)),width,height,null);
+            g2D.drawImage(bufferedImage,x,y,48,48,null);
     }
 
 }

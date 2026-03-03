@@ -51,7 +51,7 @@ public class GamePanel extends JPanel implements CollisionDetection,Runnable {
         restartHandler=new RestartHandler();
         this.addKeyListener(restartHandler);
         this.bulletHandling=new BulletHandling();
-        this.addMouseListener(bulletHandling);
+        this.addKeyListener(bulletHandling);
 
         //added assets
         enemyShip = new EnemyShip();
