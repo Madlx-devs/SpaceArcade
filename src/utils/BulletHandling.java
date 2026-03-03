@@ -2,8 +2,6 @@ package utils;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 public class BulletHandling implements KeyListener  {
     private boolean shooting;

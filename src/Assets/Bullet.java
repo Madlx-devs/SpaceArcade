@@ -10,23 +10,22 @@ import java.io.IOException;
 import java.util.Objects;
 
 public  class Bullet implements Collidable {
-    private  final int height =24;
     private  final int width =24;
     private int y;
     private int x;
     private BufferedImage bufferedImage;
     private final PlayerShip playerShip;
-    private final BulletHandling bullethandler;
+    private final BulletHandling bulletHandler;
     private boolean shooting =false;
 
 
     public int getHeight() {
-        return height;
+        return 24;
     }
 
     public Bullet( PlayerShip playerShip, BulletHandling bulletHandler) {
        this.playerShip=playerShip;
-       this.bullethandler=bulletHandler;
+       this.bulletHandler=bulletHandler;
         setImage();
         update();
 
@@ -47,6 +46,7 @@ public  class Bullet implements Collidable {
     public int getWidth() {
         return width ;
     }
+    @SuppressWarnings("nonused")
     public void setY() {
         this.y = playerShip.getY();
     }
@@ -67,8 +67,16 @@ public  class Bullet implements Collidable {
 
     }
     public void update(){
-       while (bullethandler.isShooting()){
+       while (bulletHandler.isShooting()){
            setX(getX()+3);
         }
+    }
+
+    public boolean isShooting() {
+        return shooting;
+    }
+
+    public void setShooting(boolean shooting) {
+        this.shooting = shooting;
     }
 }
