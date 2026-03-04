@@ -1,5 +1,6 @@
 package Assets;
 
+import Scenes.GamePanel;
 import utils.BulletHandling;
 import utils.Collidable;
 
@@ -16,8 +17,7 @@ public  class Bullet implements Collidable {
     private BufferedImage bufferedImage;
     private final PlayerShip playerShip;
     private final BulletHandling bulletHandler;
-    private boolean shooting =false;
-
+    private String[] lifecycle = new String[]{"shot", "travelling"};
 
     public int getHeight() {
         return 24;
@@ -46,7 +46,7 @@ public  class Bullet implements Collidable {
     public int getWidth() {
         return width ;
     }
-    @SuppressWarnings("nonused")
+
     public void setY() {
         this.y = playerShip.getY();
     }
@@ -63,20 +63,16 @@ public  class Bullet implements Collidable {
         }
     }
     public void draw(Graphics2D graphics2D){
-        graphics2D.drawImage(bufferedImage,getX(), playerShip.getY()+width,getWidth(),getHeight(),null);
+         if(bulletHandler.isShooting()){
+            graphics2D.drawImage(bufferedImage,getX(), playerShip.getY()+width,getWidth(),getHeight(),null);
+        }
 
     }
     public void update(){
-       while (bulletHandler.isShooting()){
-           setX(getX()+3);
+       if (bulletHandler.isShooting() && getX()< GamePanel.WIDTH){
+           System.out.println("shooting");
+           setX(getX()+1);
         }
     }
 
-    public boolean isShooting() {
-        return shooting;
-    }
-
-    public void setShooting(boolean shooting) {
-        this.shooting = shooting;
-    }
 }
