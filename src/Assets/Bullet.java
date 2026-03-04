@@ -17,7 +17,7 @@ public  class Bullet implements Collidable {
     private BufferedImage bufferedImage;
     private final PlayerShip playerShip;
     private final BulletHandling bulletHandler;
-    private String[] lifecycle = new String[]{"shot", "travelling"};
+    private boolean active;
 
     public int getHeight() {
         return 24;
@@ -27,7 +27,6 @@ public  class Bullet implements Collidable {
        this.playerShip=playerShip;
        this.bulletHandler=bulletHandler;
         setImage();
-        update();
 
     }
 
@@ -70,7 +69,6 @@ public  class Bullet implements Collidable {
     }
     public void update(){
        if (bulletHandler.isShooting() && getX()< GamePanel.WIDTH){
-           System.out.println("shooting");
            setX(getX()+1);
         }
     }
