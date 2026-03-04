@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class PlayerShip extends Ship{
-     PlayerKeyHandler keyHandler;
+     private final PlayerKeyHandler keyHandler;
      public PlayerShip(PlayerKeyHandler keyHandler){
         this.keyHandler=keyHandler;
         setDefaultValues();
