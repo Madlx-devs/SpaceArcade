@@ -27,10 +27,14 @@ public  class Bullet implements Collidable {
        this.playerShip=playerShip;
        this.bulletHandler=bulletHandler;
         setImage();
+        spawn();
 
     }
 
-
+    public  void spawn(){
+        this.x= playerShip.getX()+width;
+        this.y= playerShip.getY();
+    }
     @Override
     public int getY() {
         return this.y;
@@ -72,5 +76,4 @@ public  class Bullet implements Collidable {
            setX(getX()+1);
         }
     }
-
 }
