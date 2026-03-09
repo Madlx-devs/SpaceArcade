@@ -2,7 +2,36 @@ package Assets.pools;
 
 import Assets.Bullet;
 
-public class BulletPool {
-    Bullet[] bullets = new Bullet[10];
+import java.util.ArrayList;
+import java.util.List;
 
+public class BulletPool implements ObjectPool<Bullet> {
+ private final  List<Bullet> available= new ArrayList<>();
+ private final List<Bullet> inUse = new ArrayList<>();
+
+    public BulletPool(int initialSize) {
+        for (int i = 0; i < initialSize; i++) {
+            available.add(new Bullet(null,null));
+        }
+    }
+    @Override
+    public Bullet acquireObject() {
+        return available.isEmpty() ? new Bullet(null,null) : available.remove(available.size() - 1);
+    }
+
+    @Override
+    public void releaseObject(Bullet object) {
+        inUse.remove(object);
+        available.add(object);
+    }
+
+    @Override
+    public int availableObjects() {
+        return available.size();
+    }
+
+    @Override
+    public int usedObjects() {
+        return inUse.size();
+    }
 }
