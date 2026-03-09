@@ -1,5 +1,6 @@
 package Assets;
 
+import Assets.pools.BulletPool;
 import Scenes.GamePanel;
 import utils.BulletHandling;
 import utils.Collidable;
@@ -25,12 +26,15 @@ public  class Bullet implements Collidable {
 
     public Bullet( ) {
         setImage();
-        spawn();
+        if(playerShip!=null){
+             spawn();
+        }
     }
 
     public void injectDependencies(PlayerShip playerShip, BulletHandling bulletHandler) {
         this.playerShip = playerShip;
         this.bulletHandler = bulletHandler;
+
     }
     public  void spawn(){
         this.x= playerShip.getX()+width;
@@ -67,14 +71,12 @@ public  class Bullet implements Collidable {
         }
     }
     public void draw(Graphics2D graphics2D){
-         if(bulletHandler.isShooting()){
-            graphics2D.drawImage(bufferedImage,getX(), playerShip.getY()+width,getWidth(),getHeight(),null);
-        }
-
+        graphics2D.drawImage(bufferedImage,x,y,24,24,null);
     }
-    public void update(){
-       if (bulletHandler.isShooting() && getX()< GamePanel.WIDTH){
-           setX(getX()+1);
+    public void update() {
+        if (getX() > GamePanel.WIDTH) {
+            setX(0);
         }
+        setX(getX() + 10);
     }
 }
