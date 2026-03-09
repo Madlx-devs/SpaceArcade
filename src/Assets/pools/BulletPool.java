@@ -11,12 +11,12 @@ public class BulletPool implements ObjectPool<Bullet> {
 
     public BulletPool(int initialSize) {
         for (int i = 0; i < initialSize; i++) {
-            available.add(new Bullet(null,null));
+            available.add(new Bullet());
         }
     }
     @Override
     public Bullet acquireObject() {
-        return available.isEmpty() ? new Bullet(null,null) : available.remove(available.size() - 1);
+        return available.isEmpty() ? new Bullet() : available.remove(available.size() - 1);
     }
 
     @Override
