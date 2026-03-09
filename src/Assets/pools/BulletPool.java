@@ -25,7 +25,12 @@ public class BulletPool implements ObjectPool<Bullet> {
 
     @Override
     public Bullet acquireObject() {
-        return available.isEmpty() ? new Bullet() : available.remove(available.size() - 1);
+        if(available.isEmpty()){
+            return new Bullet();
+        }
+        Bullet bullet = available.remove(available.size() - 1);
+        inUse.add(bullet);
+        return bullet;
     }
 
     @Override
