@@ -6,21 +6,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BulletPool implements ObjectPool<Bullet> {
- private static  BulletPool bulletPool =null;
  private final  List<Bullet> available= new ArrayList<>();
  private final List<Bullet> inUse = new ArrayList<>();
 
-    private BulletPool(int initialSize) {
+    public BulletPool(int initialSize) {
         for (int i = 0; i < initialSize; i++) {
             available.add(new Bullet());
         }
-    }
-
-    public static BulletPool getInstance() {
-        if(bulletPool==null){
-           bulletPool= new BulletPool(10);
-        }
-        return bulletPool;
     }
 
     @Override
