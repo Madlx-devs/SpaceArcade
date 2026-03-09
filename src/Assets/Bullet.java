@@ -15,22 +15,23 @@ public  class Bullet implements Collidable {
     private int y;
     private int x;
     private BufferedImage bufferedImage;
-    private final PlayerShip playerShip;
-    private final BulletHandling bulletHandler;
+    private PlayerShip playerShip;
+    private BulletHandling bulletHandler;
     private boolean active;
 
     public int getHeight() {
         return 24;
     }
 
-    public Bullet( PlayerShip playerShip, BulletHandling bulletHandler) {
-       this.playerShip=playerShip;
-       this.bulletHandler=bulletHandler;
+    public Bullet( ) {
         setImage();
         spawn();
-
     }
 
+    public void injectDependencies(PlayerShip playerShip, BulletHandling bulletHandler) {
+        this.playerShip = playerShip;
+        this.bulletHandler = bulletHandler;
+    }
     public  void spawn(){
         this.x= playerShip.getX()+width;
         this.y= playerShip.getY();

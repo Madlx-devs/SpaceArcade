@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage;
 
 public  class Ship implements Collidable {
     protected int x, y,height=60,width=60,speed=4;
+    private boolean isActive;
 
     BufferedImage bufferedImage;
 
