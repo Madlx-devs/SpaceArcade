@@ -74,9 +74,11 @@ public  class Bullet implements Collidable {
         graphics2D.drawImage(bufferedImage,x,y,24,24,null);
     }
     public void update() {
-        if (getX() > GamePanel.WIDTH) {
-            setX(0);
-        }
-        setX(getX() + 10);
+              x+=10;
+              setY();
+              if(x> GamePanel.WIDTH){
+                setX(0);
+              }
+
     }
 }
