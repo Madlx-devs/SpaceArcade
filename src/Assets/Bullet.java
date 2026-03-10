@@ -15,7 +15,7 @@ public  class Bullet implements Collidable {
     private  final int width =24;
     private int y;
     private int x;
-    private BufferedImage bufferedImage;
+    private static BufferedImage bufferedImage;
     private PlayerShip playerShip;
     private BulletHandling bulletHandler;
     private boolean active;
@@ -26,9 +26,6 @@ public  class Bullet implements Collidable {
 
     public Bullet( ) {
         setImage();
-        if(playerShip!=null){
-             spawn();
-        }
     }
 
     public void injectDependencies(PlayerShip playerShip, BulletHandling bulletHandler) {
@@ -39,6 +36,7 @@ public  class Bullet implements Collidable {
     public  void spawn(){
         this.x= playerShip.getX()+width;
         this.y= playerShip.getY();
+        active=true;
     }
     @Override
     public int getY() {
@@ -63,22 +61,29 @@ public  class Bullet implements Collidable {
         this.x = x;
     }
 
-    private void setImage()  {
-        try {
-            bufferedImage= ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/images/Bullet.png")));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+    private void setImage() {
+        if (bufferedImage == null) {
+            try {
+                bufferedImage = ImageIO.read(
+                        Objects.requireNonNull(getClass().getResourceAsStream("/images/Bullet.png"))
+                );
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
     public void draw(Graphics2D graphics2D){
         graphics2D.drawImage(bufferedImage,x,y,24,24,null);
     }
     public void update() {
-              x+=10;
-              setY();
-              if(x> GamePanel.WIDTH){
+        if(active){
+            x+=10;
+            y= playerShip.getY();
+            if(x> GamePanel.WIDTH){
                 setX(0);
-              }
+            }
+        }
+
 
     }
 }

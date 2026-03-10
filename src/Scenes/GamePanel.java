@@ -38,7 +38,7 @@ public class GamePanel extends JPanel implements CollisionDetection,Runnable {
 
 
     private GamePanel(){
-        //
+        //window settings
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         this.setDoubleBuffered(true);
         this.setLayout(null);
@@ -53,11 +53,12 @@ public class GamePanel extends JPanel implements CollisionDetection,Runnable {
         this.bulletHandling=new BulletHandling();
         this.addKeyListener(bulletHandling);
 
-        //added assets
+        //game assets
         enemyShip = new EnemyShip();
         playerShip=new PlayerShip(this.keyHandler);
         bullet = new Bullet();
         bullet.injectDependencies(playerShip, bulletHandling);
+        bullet.spawn();
         health=new Health();
         loadImage();
 
@@ -84,11 +85,7 @@ public class GamePanel extends JPanel implements CollisionDetection,Runnable {
         g2.drawImage(backgroundImage,0,0,WIDTH, HEIGHT,null);
         render(g2);
     }
-   /*
-    Static factory method
-    returns a singleton instance of the GamePanel class
-    follows singleton design pattern
-    */
+
     public static GamePanel getGamePanel() {
         if(gamePanel==null){
             gamePanel= new GamePanel();
