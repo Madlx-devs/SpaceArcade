@@ -52,4 +52,8 @@ public class BulletManager {
             bullet.draw(g2);
         }
     }
+
+    public Bullet getBullet() {
+        return bulletPool.acquireObject();
+    }
 }

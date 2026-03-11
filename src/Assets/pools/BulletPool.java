@@ -47,8 +47,4 @@ public class BulletPool implements ObjectPool<Bullet> {
         return available.size();
     }
 
-    @Override
-    public List<Bullet> usedObjects() {
-        return inUse;
-    }
 }
