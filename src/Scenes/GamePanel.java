@@ -4,6 +4,7 @@ import Assets.Bullet;
 import Assets.EnemyShip;
 import Assets.Health;
 import Assets.PlayerShip;
+import Assets.pools.BulletPool;
 import utils.BulletHandling;
 import utils.CollisionDetection;
 import utils.PlayerKeyHandler;
@@ -16,7 +17,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Objects;
 
-public class GamePanel extends JPanel implements CollisionDetection,Runnable {
+public class GamePanel extends JPanel implements Runnable {
     public static  final int WIDTH =1080;
     public static final int HEIGHT =560;
 
@@ -34,6 +35,7 @@ public class GamePanel extends JPanel implements CollisionDetection,Runnable {
     PlayerKeyHandler keyHandler;
     Health health;
     int score = 0;
+    BulletPool bulletPool= new BulletPool(10);
 
 
 
@@ -56,9 +58,6 @@ public class GamePanel extends JPanel implements CollisionDetection,Runnable {
         //game assets
         enemyShip = new EnemyShip();
         playerShip=new PlayerShip(this.keyHandler);
-        bullet = new Bullet();
-        bullet.injectDependencies(playerShip, bulletHandling);
-        bullet.spawn();
         health=new Health();
         loadImage();
 
@@ -124,21 +123,35 @@ public class GamePanel extends JPanel implements CollisionDetection,Runnable {
     public void update(){
         enemyShip.update();
         playerShip.update();
-        bullet.update();
+            if(bulletHandling.isShooting()){
+               // if shooting is true take a bullet from the pool inject the dependencies and spawn it
+                //this will  be called 60 times per second if the   player presses the shoot button
+                // but in pool there are only 10 bullets so if the player shoots more than 10 times in a short period of time the pool will create new bullets but if the player releases the shoot button and shoots again the pool will reuse the bullets that are not in use anymore
+                bullet=bulletPool.acquireObject();
+
+                bullet.injectDependencies(playerShip, bulletPool, enemyShip);
+                if(bullet!=null){
+                    bullet.spawn();
+                }
+            }
+
+            for(Bullet b : bulletPool.getInUse()){
+                b.update();
+            }
     }
 
     public void render(Graphics2D g2){
         playerShip.draw(g2);
         enemyShip.draw(g2);
-        bullet.draw(g2);
+        for(Bullet bullet: bulletPool.getInUse()){
+            bullet.draw(g2);
+        }
         health.draw(g2);
 
     }
 
     void updateScore(){
-      if(detectCollision( bullet , enemyShip )){
-          score+=10;
-      }
+        score++;
     }
 
     void restart(){

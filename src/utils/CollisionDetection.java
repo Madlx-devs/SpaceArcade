@@ -1,9 +1,9 @@
 package utils;
 
-public interface CollisionDetection {
+public class CollisionDetection {
 
-    default <T extends Collidable, U extends Collidable>
-    boolean detectCollision(T entity1 ,U entity2) {
+    public static  <T extends Collidable, U extends Collidable>
+    boolean detectCollision(T entity1, U entity2) {
         return entity1.getX() < entity2.getX() + entity2.getWidth() &&
                 entity1.getX() + entity1.getWidth() > entity2.getX() &&
                 entity1.getY() < entity2.getY() + entity2.getHeight() &&

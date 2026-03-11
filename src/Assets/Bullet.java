@@ -2,8 +2,8 @@ package Assets;
 
 import Assets.pools.BulletPool;
 import Scenes.GamePanel;
-import utils.BulletHandling;
 import utils.Collidable;
+import utils.CollisionDetection;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -11,79 +11,91 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Objects;
 
-public  class Bullet implements Collidable {
-    private  final int width =24;
-    private int y;
+
+public class Bullet implements Collidable {
+
+    private final int width = 24;
     private int x;
-    private static BufferedImage bufferedImage;
-    private PlayerShip playerShip;
-    private BulletHandling bulletHandler;
+    private int y;
+
     private boolean active;
 
-    public int getHeight() {
-        return 24;
-    }
+    private static BufferedImage bufferedImage;
 
-    public Bullet( ) {
+    private PlayerShip playerShip;
+    private BulletPool bulletPool;
+    private  EnemyShip enemyShip;
+
+    public Bullet() {
         setImage();
     }
 
-    public void injectDependencies(PlayerShip playerShip, BulletHandling bulletHandler) {
+    public void injectDependencies(PlayerShip playerShip, BulletPool bulletPool, EnemyShip enemyShip) {
         this.playerShip = playerShip;
-        this.bulletHandler = bulletHandler;
+        this.bulletPool = bulletPool;
+        this.enemyShip = enemyShip;
 
     }
-    public  void spawn(){
-        this.x= playerShip.getX()+width;
-        this.y= playerShip.getY();
-        active=true;
-    }
-    @Override
-    public int getY() {
-        return this.y;
-    }
 
-    @Override
-    public int getX() {
-        return this.x;
-    }
-
-    @Override
-    public int getWidth() {
-        return width ;
-    }
-
-    public void setY() {
+    public void spawn() {
+        this.x = playerShip.getX() + width;
         this.y = playerShip.getY();
+        active = true;
     }
 
-    public void setX(int x) {
-        this.x = x;
+    public void update() {
+
+        if (!active) return;
+
+        x += 10;
+
+        if (x > GamePanel.WIDTH || CollisionDetection.detectCollision(this,enemyShip)) {
+            active = false;
+            bulletPool.releaseObject(this);
+
+        }
+    }
+
+    public void draw(Graphics2D g2) {
+
+        if (!active) return;
+
+        g2.drawImage(bufferedImage, x, y, 24, 24, null);
     }
 
     private void setImage() {
+
         if (bufferedImage == null) {
+
             try {
                 bufferedImage = ImageIO.read(
-                        Objects.requireNonNull(getClass().getResourceAsStream("/images/Bullet.png"))
+                        Objects.requireNonNull(
+                                getClass().getResourceAsStream("/images/Bullet.png")
+                        )
                 );
+
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         }
     }
-    public void draw(Graphics2D graphics2D){
-        graphics2D.drawImage(bufferedImage,x,y,24,24,null);
+
+    @Override
+    public int getX() {
+        return x;
     }
-    public void update() {
-        if(active){
-            x+=10;
-            y= playerShip.getY();
-            if(x> GamePanel.WIDTH){
-                setX(0);
-            }
-        }
 
+    @Override
+    public int getY() {
+        return y;
+    }
 
+    @Override
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return 24;
     }
 }

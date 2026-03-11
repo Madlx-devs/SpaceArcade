@@ -5,10 +5,12 @@ import Scenes.GamePanel;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Objects;
 
 public class PlayerShip extends Ship{
+    private static BufferedImage bufferedImage;
      private final PlayerKeyHandler keyHandler;
      public PlayerShip(PlayerKeyHandler keyHandler){
         this.keyHandler=keyHandler;
