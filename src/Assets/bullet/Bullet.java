@@ -50,7 +50,7 @@ public class Bullet implements Collidable {
         x += 10;
 
         if (x > GamePanel.WIDTH || CollisionDetection.detectCollision(this,enemyShip)) {
-            active = false;
+            active=false;
             bulletPool.releaseObject(this);
 
         }

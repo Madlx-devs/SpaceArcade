@@ -1,6 +1,6 @@
 package Assets.pools;
 
-import Assets.EnemyShip;
+import Assets.enemy.EnemyShip;
 
 import java.util.ArrayList;
 import java.util.List;

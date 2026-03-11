@@ -1,13 +1,14 @@
-package Assets;
+package Assets.enemy;
 
 
 
+
+import Assets.Ship;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 
 import java.awt.image.BufferedImage;
-import java.nio.Buffer;
 import java.util.Objects;
 import static Scenes.GamePanel.*;
 
@@ -21,10 +22,10 @@ public class EnemyShip extends Ship {
       update();
     }
     @Override
-    void setDefaultValues() {
-        x= WIDTH -width;
+     public void setDefaultValues() {
+        setX( WIDTH -getWidth());
 
-        y= HEIGHT/2;
+        setY(HEIGHT/2);
     }
 
     @Override
@@ -38,16 +39,16 @@ public class EnemyShip extends Ship {
 
     @Override
     public void update() {
-       x-=speed;
-       if(x<0){
-           x=WIDTH-width;
+       setX(getX()-speed);
+       if(getX()<0){
+           setX(WIDTH-getWidth());
 
        }
     }
 
     @Override
     public void draw(Graphics2D g2D) {
-            g2D.drawImage(bufferedImage,x,y,48,48,null);
+            g2D.drawImage(bufferedImage,getX(),getY(),48,48,null);
     }
 
 }
