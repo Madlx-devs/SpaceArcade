@@ -1,5 +1,7 @@
-package Assets;
+package Assets.bullet;
 
+import Assets.EnemyShip;
+import Assets.PlayerShip;
 import Assets.pools.BulletPool;
 import Scenes.GamePanel;
 import utils.Collidable;
@@ -24,7 +26,7 @@ public class Bullet implements Collidable {
 
     private PlayerShip playerShip;
     private BulletPool bulletPool;
-    private  EnemyShip enemyShip;
+    private EnemyShip enemyShip;
 
     public Bullet() {
         setImage();

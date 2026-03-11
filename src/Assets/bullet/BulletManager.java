@@ -10,19 +10,19 @@ import java.util.List;
 
 public class BulletManager {
 
-    private final BulletPool bulletPool;
+    private final BulletPool bulletPool = new BulletPool(10);
     private final PlayerShip playerShip;
     private final EnemyShip enemyShip;
 
     private long lastShotTime = 0;
 
-    public BulletManager(BulletPool bulletPool, PlayerShip playerShip, EnemyShip enemyShip) {
+    public BulletManager(PlayerShip playerShip, EnemyShip enemyShip) {
         this.bulletPool = bulletPool;
         this.playerShip = playerShip;
         this.enemyShip = enemyShip;
     }
 
-    public void shoot(boolean shooting) {
+    private void shoot(boolean shooting) {
 
         long currentTime = System.currentTimeMillis();
 
@@ -38,8 +38,8 @@ public class BulletManager {
         }
     }
 
-    public void updateBullets() {
-
+    public void updateBullets(boolean shooting) {
+        shoot(shooting);
         List<Bullet> bullets = bulletPool.getInUse();
 
         for (int i = bullets.size() - 1; i >= 0; i--) {
