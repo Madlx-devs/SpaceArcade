@@ -1,6 +1,6 @@
-package Assets.bullet;
+package Assets.pools;
 
-import Assets.pools.ObjectPool;
+import Assets.bullet.Bullet;
 
 import java.util.ArrayList;
 import java.util.List;
