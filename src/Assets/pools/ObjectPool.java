@@ -7,5 +7,5 @@ public interface ObjectPool<T> {
     T acquireObject();
     void releaseObject(T object);
     int availableObjects();
-    List<T> usedObjects();
+    List<T> getInUse();
 }
