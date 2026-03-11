@@ -1,12 +1,9 @@
 package Scenes;
 
+import Assets.*;
 import Assets.bullet.Bullet;
-import Assets.EnemyShip;
-import Assets.Health;
-import Assets.PlayerShip;
 import Assets.bullet.BulletManager;
 import Assets.bullet.BulletHandling;
-import Assets.pools.EnemyManager;
 import utils.PlayerKeyHandler;
 import utils.RestartHandler;
 
@@ -16,6 +13,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Objects;
+
+import static utils.CollisionDetection.detectCollision;
 
 public class GamePanel extends JPanel implements Runnable {
     public static  final int WIDTH =1080;
@@ -58,9 +57,10 @@ public class GamePanel extends JPanel implements Runnable {
         this.addKeyListener(bulletHandling);
 
         //game assets
-        enemyShip = new EnemyShip();
         playerShip=new PlayerShip(this.keyHandler);
         health=new Health();
+        enemyManager= new EnemyManager();
+        enemyShip=enemyManager.getEnemyShip();
         this.bulletManager= new BulletManager(playerShip,enemyShip);
         loadImage();
 
@@ -116,7 +116,7 @@ public class GamePanel extends JPanel implements Runnable {
 
             }
 
-//            while(detectCollision(playerShip,enemyShip)) {
+
 //                Health.updateHealth();
 //                repaint();
 //            }
@@ -128,6 +128,7 @@ public class GamePanel extends JPanel implements Runnable {
         enemyShip.update();
         playerShip.update();
         bulletManager.updateBullets(bulletHandling.isShooting());
+        //enemyManager.updateEnemy();
     }
 
     public void render(Graphics2D g2){
@@ -135,6 +136,20 @@ public class GamePanel extends JPanel implements Runnable {
         enemyShip.draw(g2);
         bulletManager.drawBullets(g2);
         health.draw(g2);
+        //enemyManager.draw(g2);
+        if(detectCollision(playerShip,enemyShip) ) {
+            Bang bang = new Bang(playerShip.getX(), playerShip.getY());
+            bang.draw(g2);
+            gameThread=null;
+        }
+        if(detectCollision(bulletManager.getBullet(),enemyShip)){
+            Bang bang = new Bang(enemyShip.getX(), enemyShip.getY());
+            bang.draw(g2);
+            gameThread=null;
+//            updateScore();
+//            enemyManager.updateEnemy();
+        }
+
 
     }
 
