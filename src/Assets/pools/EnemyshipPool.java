@@ -17,7 +17,16 @@ private final List<EnemyShip> inUse = new ArrayList<>();
     }
     @Override
     public EnemyShip acquireObject() {
-        return available.isEmpty() ? new EnemyShip() : available.removeLast();
+        EnemyShip ship;
+        if(available.isEmpty()){
+            ship= new EnemyShip();
+            inUse.add(ship);
+        }else
+        {
+            ship= available.remove(available.size()-1);
+            inUse.add(ship);
+        }
+        return ship;
     }
 
     @Override
@@ -32,7 +41,7 @@ private final List<EnemyShip> inUse = new ArrayList<>();
     }
 
     @Override
-    public int usedObjects() {
-        return inUse.size();
+    public List<EnemyShip> usedObjects() {
+        return inUse;
     }
 }

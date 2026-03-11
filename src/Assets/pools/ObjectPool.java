@@ -1,9 +1,11 @@
 package Assets.pools;
 
+import java.util.List;
+
 public interface ObjectPool<T> {
 
     T acquireObject();
     void releaseObject(T object);
     int availableObjects();
-    int usedObjects();
+    List<T> usedObjects();
 }
