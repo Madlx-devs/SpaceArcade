@@ -11,7 +11,7 @@ import java.util.Objects;
 
 public class PlayerShip extends Ship{
     private static BufferedImage bufferedImage;
-     private final PlayerKeyHandler keyHandler;
+    private final PlayerKeyHandler keyHandler;
      public PlayerShip(PlayerKeyHandler keyHandler){
         this.keyHandler=keyHandler;
         setDefaultValues();
@@ -20,32 +20,32 @@ public class PlayerShip extends Ship{
 
     @Override
      public void draw(Graphics2D g2D) {
-        g2D.drawImage(bufferedImage,x,y,width,height,null);
+        g2D.drawImage(bufferedImage,getX(),getY(),getWidth(),getHeight(),null);
     }
     @Override
      public void setDefaultValues(){
-         x =0;
-         y =0;
+         setX(0);
+         setY(0);
     }
 
     @Override
     public void update() {
          if(keyHandler.upPressed){
-             y-=speed;
+             setY(getY()-speed);
           }
         if(keyHandler.downPressed){
-            y+=speed;
+            setY(getY()+speed);
         }
         if(keyHandler.leftPressed){
-            x-=speed;
+            setX(getX()-speed);
         }
         if(keyHandler.rightPressed){
-            x+=speed;
+            setX(getX()+speed);
         }
-        if (x < 0) x = 0;
-        if (x > GamePanel.WIDTH - width) x = GamePanel.WIDTH - width;
-        if (y < 0) y = 0;
-        if (y > GamePanel.HEIGHT - height) y = GamePanel.HEIGHT - height;
+        if (getX() < 0) setX(0);
+        if (getX() > GamePanel.WIDTH - getWidth()) setX(GamePanel.WIDTH - getWidth());
+        if (getY() < 0) setY(0);
+        if (getY()> GamePanel.HEIGHT - getHeight()) setY(GamePanel.HEIGHT - getHeight());
 
     }
 

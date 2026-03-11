@@ -1,6 +1,6 @@
 package Assets.pools;
 
-import Assets.enemy.EnemyShip;
+import Assets.EnemyShip;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +23,7 @@ private final List<EnemyShip> inUse = new ArrayList<>();
             inUse.add(ship);
         }else
         {
-            ship= available.remove(available.size()-1);
+            ship= available.removeLast();
             inUse.add(ship);
         }
         return ship;

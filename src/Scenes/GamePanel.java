@@ -1,12 +1,14 @@
 package Scenes;
 
-import Assets.Bullet;
+import Assets.bullet.Bullet;
 import Assets.EnemyShip;
 import Assets.Health;
 import Assets.PlayerShip;
+import Assets.bullet.BulletManager;
 import Assets.pools.BulletPool;
-import utils.BulletHandling;
-import utils.CollisionDetection;
+import Assets.bullet.BulletHandling;
+import Assets.pools.EnemyManager;
+import Assets.pools.EnemyshipPool;
 import utils.PlayerKeyHandler;
 import utils.RestartHandler;
 
@@ -25,17 +27,19 @@ public class GamePanel extends JPanel implements Runnable {
 
     //game panel object
     private static GamePanel gamePanel;
-    Thread gameThread;
-    PlayerShip playerShip ;
-    EnemyShip enemyShip;
-    Bullet bullet;
-    RestartHandler restartHandler;
-    BulletHandling bulletHandling;
+    private Thread gameThread;
+    private PlayerShip playerShip ;
+    private EnemyShip enemyShip;
+    private Bullet bullet;
+    private RestartHandler restartHandler;
+    private BulletHandling bulletHandling;
     private BufferedImage backgroundImage;
-    PlayerKeyHandler keyHandler;
-    Health health;
+    private PlayerKeyHandler keyHandler;
+    private final Health health;
     int score = 0;
-    BulletPool bulletPool= new BulletPool(10);
+    private final BulletManager bulletManager;
+    private EnemyManager enemyManager;
+
 
 
 
@@ -59,6 +63,7 @@ public class GamePanel extends JPanel implements Runnable {
         enemyShip = new EnemyShip();
         playerShip=new PlayerShip(this.keyHandler);
         health=new Health();
+        this.bulletManager= new BulletManager(playerShip,enemyShip);
         loadImage();
 
         //game thread
@@ -109,6 +114,7 @@ public class GamePanel extends JPanel implements Runnable {
             while (delta >= 1) {
                 update();
                 delta--;
+                repaint();
 
             }
 
@@ -116,36 +122,20 @@ public class GamePanel extends JPanel implements Runnable {
 //                Health.updateHealth();
 //                repaint();
 //            }
-            repaint();
+           // repaint();
         }
     }
 
     public void update(){
         enemyShip.update();
         playerShip.update();
-            if(bulletHandling.isShooting()){
-               // if shooting is true take a bullet from the pool inject the dependencies and spawn it
-                //this will  be called 60 times per second if the   player presses the shoot button
-                // but in pool there are only 10 bullets so if the player shoots more than 10 times in a short period of time the pool will create new bullets but if the player releases the shoot button and shoots again the pool will reuse the bullets that are not in use anymore
-                bullet=bulletPool.acquireObject();
-
-                bullet.injectDependencies(playerShip, bulletPool, enemyShip);
-                if(bullet!=null){
-                    bullet.spawn();
-                }
-            }
-
-            for(Bullet b : bulletPool.getInUse()){
-                b.update();
-            }
+        bulletManager.updateBullets(bulletHandling.isShooting());
     }
 
     public void render(Graphics2D g2){
         playerShip.draw(g2);
         enemyShip.draw(g2);
-        for(Bullet bullet: bulletPool.getInUse()){
-            bullet.draw(g2);
-        }
+        bulletManager.drawBullets(g2);
         health.draw(g2);
 
     }
