@@ -17,7 +17,6 @@ public class BulletManager {
     private long lastShotTime = 0;
 
     public BulletManager(PlayerShip playerShip, EnemyShip enemyShip) {
-        this.bulletPool = bulletPool;
         this.playerShip = playerShip;
         this.enemyShip = enemyShip;
     }

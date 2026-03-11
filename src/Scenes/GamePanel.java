@@ -5,10 +5,8 @@ import Assets.EnemyShip;
 import Assets.Health;
 import Assets.PlayerShip;
 import Assets.bullet.BulletManager;
-import Assets.pools.BulletPool;
 import Assets.bullet.BulletHandling;
 import Assets.pools.EnemyManager;
-import Assets.pools.EnemyshipPool;
 import utils.PlayerKeyHandler;
 import utils.RestartHandler;
 
