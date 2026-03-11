@@ -11,13 +11,12 @@ import java.util.Objects;
 import static Scenes.GamePanel.*;
 
 public class EnemyShip extends Ship {
-     private static BufferedImage bufferedImage;
-
+    private static BufferedImage bufferedImage;
     public EnemyShip(){
 
       setDefaultValues();
       getImage();
-      update();
+
     }
     @Override
     public void setDefaultValues() {

@@ -41,7 +41,7 @@ private final List<EnemyShip> inUse = new ArrayList<>();
     }
 
     @Override
-    public List<EnemyShip> usedObjects() {
+    public List<EnemyShip> getInUse() {
         return inUse;
     }
 }
