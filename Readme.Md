@@ -49,9 +49,8 @@ java Main
 
 ---
 
-# 📸 Screenshots
+# 📸 Gameplay
 
-*(Add gameplay screenshots or GIFs here)*
 
 Example:
 
