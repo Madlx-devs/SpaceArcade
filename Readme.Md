@@ -49,15 +49,14 @@ java Main
 
 ---
 
-# 📸 Screenshots
+# 📸 Gameplay
 
-*(Add gameplay screenshots or GIFs here)*
 
 Example:
 
-```
-![Gameplay](screenshot/gameplay.gif)
-```
+<p align="center">
+  <img src="screenshot/gameplay.gif" width="600">
+</p>
 
 ---
 
