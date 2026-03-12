@@ -54,9 +54,9 @@ java Main
 
 Example:
 
-```
-![Gameplay](screenshot/gameplay.gif)
-```
+<p align="center">
+  <img src="screenshot/gameplay.gif" width="600">
+</p>
 
 ---
 
