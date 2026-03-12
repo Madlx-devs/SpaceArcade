@@ -24,7 +24,6 @@ public class BulletManager {
     private void shoot(boolean shooting) {
 
         long currentTime = System.currentTimeMillis();
-
         // milliseconds
         long shootDelay = 150;
         if (shooting && currentTime - lastShotTime >= shootDelay) {

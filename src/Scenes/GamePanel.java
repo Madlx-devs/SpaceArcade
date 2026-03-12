@@ -125,36 +125,40 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void update(){
-        enemyShip.update();
+        //enemyShip.update();
         playerShip.update();
         bulletManager.updateBullets(bulletHandling.isShooting());
-        //enemyManager.updateEnemy();
+        enemyManager.update();
     }
 
     public void render(Graphics2D g2){
         playerShip.draw(g2);
-        enemyShip.draw(g2);
         bulletManager.drawBullets(g2);
         health.draw(g2);
-        //enemyManager.draw(g2);
+        enemyManager.draw(g2);
         if(detectCollision(playerShip,enemyShip) ) {
             Bang bang = new Bang(playerShip.getX(), playerShip.getY());
             bang.draw(g2);
             gameThread=null;
+
         }
         if(detectCollision(bulletManager.getBullet(),enemyShip)){
             Bang bang = new Bang(enemyShip.getX(), enemyShip.getY());
             bang.draw(g2);
-            gameThread=null;
+            updateScore();
+            enemyShip.setIsActive(false);
+            enemyManager.remove();
 //            updateScore();
 //            enemyManager.updateEnemy();
         }
+        g2.drawString("score:"+score,WIDTH-100,20);
 
 
     }
 
     void updateScore(){
         score++;
+
     }
 
     void restart(){

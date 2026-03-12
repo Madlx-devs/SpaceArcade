@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage;
 public  class Ship implements Collidable {
     private int x, y,height=60,width=60;
     public  final int speed=4;
-    private boolean isActive;
+    protected boolean isActive;
 
     public void setX(int x) {
         this.x = x;

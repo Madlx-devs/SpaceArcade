@@ -12,10 +12,12 @@ import static Scenes.GamePanel.*;
 
 public class EnemyShip extends Ship {
     private static BufferedImage bufferedImage;
+
     public EnemyShip(){
 
       setDefaultValues();
       getImage();
+      isActive=true;
 
     }
     @Override
@@ -23,6 +25,12 @@ public class EnemyShip extends Ship {
         setX( WIDTH -getWidth());
 
         setY(HEIGHT/2);
+    }
+    public  boolean getIsActive() {
+        return isActive;
+    }
+    public void setIsActive(boolean active) {
+        isActive = active;
     }
 
     @Override
@@ -45,7 +53,9 @@ public class EnemyShip extends Ship {
 
     @Override
     public void draw(Graphics2D g2D) {
+        if(getIsActive()){
             g2D.drawImage(bufferedImage,getX(),getY(),48,48,null);
+        }
     }
 
 }
