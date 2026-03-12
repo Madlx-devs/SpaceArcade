@@ -56,7 +56,7 @@ java Main
 Example:
 
 ```
-![Gameplay](assets/gameplay.gif)
+![Gameplay](Screenshot/gameplay.gif)
 ```
 
 ---
