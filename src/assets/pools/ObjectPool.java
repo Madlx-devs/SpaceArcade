@@ -1,4 +1,4 @@
-package Assets.pools;
+package assets.pools;
 
 import java.util.List;
 

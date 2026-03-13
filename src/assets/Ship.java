@@ -1,4 +1,4 @@
-package Assets;
+package assets;
 
 import utils.Collidable;
 
@@ -9,6 +9,12 @@ public  class Ship implements Collidable {
     private int x, y,height=60,width=60;
     public  final int speed=4;
     protected boolean isActive;
+
+
+    public boolean isWithinBounds() {
+        //TODO:override this method in subclasses to check if the ship is within the game bounds
+        return false;
+    }
 
     public void setX(int x) {
         this.x = x;

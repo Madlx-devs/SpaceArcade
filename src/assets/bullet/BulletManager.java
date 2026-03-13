@@ -1,8 +1,10 @@
-package Assets.bullet;
+package assets.bullet;
 
-import Assets.EnemyShip;
-import Assets.PlayerShip;
-import Assets.pools.BulletPool;
+import Scenes.GamePanel;
+import assets.EnemyShip;
+import assets.PlayerShip;
+import assets.pools.BulletPool;
+import utils.CollisionDetection;
 
 import java.awt.*;
 import java.util.List;
@@ -13,6 +15,7 @@ public class BulletManager {
     private final BulletPool bulletPool = new BulletPool(10);
     private final PlayerShip playerShip;
     private final EnemyShip enemyShip;
+    private final  int speed = 10;
 
     private long lastShotTime = 0;
 
@@ -29,7 +32,7 @@ public class BulletManager {
         if (shooting && currentTime - lastShotTime >= shootDelay) {
 
             Bullet bullet = bulletPool.acquireObject();
-            bullet.injectDependencies(playerShip, bulletPool,enemyShip);
+            bullet.injectDependencies(playerShip);
             bullet.spawn();
 
             lastShotTime = currentTime;
@@ -41,7 +44,14 @@ public class BulletManager {
         List<Bullet> bullets = bulletPool.getInUse();
 
         for (int i = bullets.size() - 1; i >= 0; i--) {
-            bullets.get(i).update();
+            Bullet bullet = bullets.get(i);
+            if(bullet.isActive()){
+                bullet.setX(bullet.getX()+speed);
+            }
+            if(bullet.getX() > GamePanel.WIDTH || bullet.getX() < 0|| !bullet.isActive()){
+                bulletPool.releaseObject(bullet);
+            }
+
         }
     }
 
@@ -52,7 +62,7 @@ public class BulletManager {
         }
     }
 
-    public Bullet getBullet() {
-        return bulletPool.acquireObject();
+    public List<Bullet> getBullet() {
+        return bulletPool.getInUse();
     }
 }

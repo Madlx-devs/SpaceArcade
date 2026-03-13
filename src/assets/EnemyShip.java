@@ -1,7 +1,8 @@
-package Assets;
+package assets;
 
 
 
+import Scenes.GamePanel;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -11,14 +12,23 @@ import java.util.Objects;
 import static Scenes.GamePanel.*;
 
 public class EnemyShip extends Ship {
-    private static BufferedImage bufferedImage;
+   private  static int counter=0;
+    private int id =0;
+
+    public  void setId() {
+         this.id =++counter;
+    }
+    public int getId() {
+    return id;
+    }
+
+    private static final BufferedImage bufferedImage;
 
     public EnemyShip(){
 
       setDefaultValues();
-      getImage();
       isActive=true;
-
+      setId();
     }
     @Override
     public void setDefaultValues() {
@@ -31,12 +41,13 @@ public class EnemyShip extends Ship {
     }
     public void setIsActive(boolean active) {
         isActive = active;
+
     }
 
-    @Override
-    protected void getImage() {
+
+     static {
         try{
-            bufferedImage= ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/images/enemy.png")));
+            bufferedImage= ImageIO.read(Objects.requireNonNull(EnemyShip.class.getResourceAsStream("/images/enemy.png")));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -44,18 +55,26 @@ public class EnemyShip extends Ship {
 
     @Override
     public void update() {
-       setX(getX()-speed);
-       if(getX()<0){
-           setX(WIDTH-getWidth());
-
-       }
+        if (getIsActive()) {
+            setX(getX() - speed);
+        }
     }
 
+    @Override
+    public boolean isWithinBounds() {
+       return this.getX()>0 && this.getX()< WIDTH && this.getY()>0 && this.getY()<HEIGHT;
+    }
     @Override
     public void draw(Graphics2D g2D) {
         if(getIsActive()){
             g2D.drawImage(bufferedImage,getX(),getY(),48,48,null);
         }
     }
+    public void reset( ) {
+        this.setX(WIDTH - getWidth());
+        this.setY(HEIGHT / 2);
+        this.isActive = true;
+    }
+
 
 }

@@ -1,6 +1,6 @@
-package Assets.pools;
+package assets.pools;
 
-import Assets.EnemyShip;
+import assets.EnemyShip;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +24,7 @@ private final List<EnemyShip> inUse = new ArrayList<>();
         }else
         {
             ship= available.removeLast();
+            ship.reset();
             inUse.add(ship);
         }
         return ship;
@@ -31,6 +32,7 @@ private final List<EnemyShip> inUse = new ArrayList<>();
 
     @Override
     public void releaseObject(EnemyShip ship) {
+        ship.setIsActive(false);
         inUse.remove(ship);
         available.add(ship);
     }

@@ -2,6 +2,7 @@ package utils;
 
 public class CollisionDetection {
 
+
     public static  <T extends Collidable, U extends Collidable>
     boolean detectCollision(T entity1, U entity2) {
         return entity1.getX() < entity2.getX() + entity2.getWidth() &&

@@ -8,7 +8,6 @@ import static Scenes.GamePanel.getGamePanel;
 public class Main {
 
     public static void main(String[] args) {
-
         JFrame window = new JFrame();
         window.getContentPane().add(getGamePanel());
         window.pack();

@@ -1,4 +1,4 @@
-package Assets;
+package assets;
 
 import utils.PlayerKeyHandler;
 import Scenes.GamePanel;
@@ -10,12 +10,11 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class PlayerShip extends Ship{
-    private static BufferedImage bufferedImage;
+    private static final BufferedImage bufferedImage;
     private final PlayerKeyHandler keyHandler;
      public PlayerShip(PlayerKeyHandler keyHandler){
         this.keyHandler=keyHandler;
         setDefaultValues();
-        getImage();
      }
 
     @Override
@@ -49,10 +48,9 @@ public class PlayerShip extends Ship{
 
     }
 
-    @Override
-     protected void getImage() {
+     static  {
         try {
-          bufferedImage=  ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/images/playership.png")));
+          bufferedImage=  ImageIO.read(Objects.requireNonNull(PlayerShip.class.getResourceAsStream("/images/playership.png")));
         } catch (IOException e) {
             throw new RuntimeException("image cannot be loaded");
         }

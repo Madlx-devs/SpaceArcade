@@ -1,4 +1,4 @@
-package Assets.sound;
+package assets.sound;
 
 import javax.sound.sampled.*;
 import java.io.IOException;

@@ -1,9 +1,9 @@
 package Scenes;
 
-import Assets.*;
-import Assets.bullet.Bullet;
-import Assets.bullet.BulletManager;
-import Assets.bullet.BulletHandling;
+import assets.*;
+import assets.bullet.Bullet;
+import assets.bullet.BulletManager;
+import assets.bullet.BulletHandling;
 import utils.PlayerKeyHandler;
 import utils.RestartHandler;
 
@@ -23,23 +23,29 @@ public class GamePanel extends JPanel implements Runnable {
 
 
     //game panel object
-    private static GamePanel gamePanel;
+    private  static  GamePanel gamePanel;
+
     private Thread gameThread;
-    private PlayerShip playerShip ;
+    private final PlayerShip playerShip ;
     private EnemyShip enemyShip;
     private Bullet bullet;
+
+    //restart handler and bullet handling
     private RestartHandler restartHandler;
     private BulletHandling bulletHandling;
-    private BufferedImage backgroundImage;
     private PlayerKeyHandler keyHandler;
+
+    //image
+    private static final BufferedImage backgroundImage;
     private final Health health;
-    int score = 0;
+
     private final BulletManager bulletManager;
-    private EnemyManager enemyManager;
+    private final EnemyManager enemyManager;
 
 
 
-
+    int score=0;
+    //constructor
     private GamePanel(){
         //window settings
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
@@ -48,21 +54,24 @@ public class GamePanel extends JPanel implements Runnable {
         this.setFocusable(true);
         this.requestFocusInWindow();
 
-        //keyHandling && mouseHandling
+        //keyHandling && mouseHandling  initialization
         keyHandler= new PlayerKeyHandler();
-        this.addKeyListener(keyHandler);
         restartHandler=new RestartHandler();
+        bulletHandling=new BulletHandling();
+
+        //add listeners
+        this.addKeyListener(keyHandler);
         this.addKeyListener(restartHandler);
-        this.bulletHandling=new BulletHandling();
         this.addKeyListener(bulletHandling);
 
         //game assets
         playerShip=new PlayerShip(this.keyHandler);
+
+        //health initialization
         health=new Health();
-        enemyManager= new EnemyManager();
-        enemyShip=enemyManager.getEnemyShip();
-        this.bulletManager= new BulletManager(playerShip,enemyShip);
-        loadImage();
+
+        enemyManager = new EnemyManager();
+        bulletManager= new BulletManager(playerShip,enemyManager.getEnemyShip().get(1));
 
         //game thread
         gameThread=new Thread(this);
@@ -70,10 +79,10 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
 
-     void loadImage(){
+     static {
          try {
              backgroundImage= ImageIO.read(
-                     Objects.requireNonNull(getClass().getResourceAsStream("/images/scene.png")));
+                     Objects.requireNonNull(GamePanel.class.getResourceAsStream("/images/scene.png")));
          } catch (IOException e) {
              throw new RuntimeException(e);
          }
@@ -87,14 +96,16 @@ public class GamePanel extends JPanel implements Runnable {
         g2.drawImage(backgroundImage,0,0,WIDTH, HEIGHT,null);
         render(g2);
     }
-
+    //singleton pattern for game panel
     public static GamePanel getGamePanel() {
         if(gamePanel==null){
-            gamePanel= new GamePanel();
+            gamePanel = new GamePanel();
         }
         return gamePanel;
+
     }
 
+    //game loop
     @Override
     public void run() {
 
@@ -116,16 +127,10 @@ public class GamePanel extends JPanel implements Runnable {
 
             }
 
-
-//                Health.updateHealth();
-//                repaint();
-//            }
-           // repaint();
         }
     }
 
     public void update(){
-        //enemyShip.update();
         playerShip.update();
         bulletManager.updateBullets(bulletHandling.isShooting());
         enemyManager.update();
@@ -136,31 +141,37 @@ public class GamePanel extends JPanel implements Runnable {
         bulletManager.drawBullets(g2);
         health.draw(g2);
         enemyManager.draw(g2);
-        if(detectCollision(playerShip,enemyShip) ) {
-            Bang bang = new Bang(playerShip.getX(), playerShip.getY());
-            bang.draw(g2);
-            gameThread=null;
+        for(int i=enemyManager.getEnemyShip().size();i>0;i--) {
+            EnemyShip enemy= enemyManager.getEnemyShip().get(i-1);
+            if (detectCollision(playerShip, enemy)) {
+                Bang bang = new Bang(playerShip.getX(), playerShip.getY());
+                bang.draw(g2);
+                enemy.setIsActive(false);
+                gameThread = null;
+            }
 
-        }
-        if(detectCollision(bulletManager.getBullet(),enemyShip)){
-            Bang bang = new Bang(enemyShip.getX(), enemyShip.getY());
-            bang.draw(g2);
-            updateScore();
-            enemyShip.setIsActive(false);
-            enemyManager.remove();
-//            updateScore();
-//            enemyManager.updateEnemy();
+            for (int j = bulletManager.getBullet().size(); j > 0; j--) {
+                Bullet bullet = bulletManager.getBullet().get(j - 1);
+                if (detectCollision(bullet, enemy)) {
+                    Bang bang = new Bang(enemy.getX(), enemy.getY());
+                    bang.draw(g2);
+                    updateScore();
+                    enemy.setIsActive(false);
+                    enemyManager.remove(enemy);
+                    bullet.setActive(false);
+                    bulletManager.getBullet().remove(bullet);
+                }
+            }
         }
         g2.drawString("score:"+score,WIDTH-100,20);
-
-
     }
-
+    //score update
     void updateScore(){
         score++;
 
     }
 
+    //restart the game
     void restart(){
         score =0;
      playerShip.setDefaultValues();

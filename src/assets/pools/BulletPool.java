@@ -1,6 +1,6 @@
-package Assets.pools;
+package assets.pools;
 
-import Assets.bullet.Bullet;
+import assets.bullet.Bullet;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +13,6 @@ public class BulletPool implements ObjectPool<Bullet> {
     public BulletPool(int initialSize) {
         for (int i = 0; i < initialSize; i++) {
             available.add(new Bullet());
-           // 10 bullets are created and added to the bullet pool, ready to be used when needed.
         }
     }
 
