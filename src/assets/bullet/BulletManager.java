@@ -2,15 +2,15 @@ package assets.bullet;
 
 import Scenes.GamePanel;
 import assets.EnemyShip;
+import assets.EntityManager;
 import assets.PlayerShip;
 import assets.pools.BulletPool;
-import utils.CollisionDetection;
 
 import java.awt.*;
 import java.util.List;
 
 
-public class BulletManager {
+public class BulletManager  implements EntityManager<Bullet> {
 
     private final BulletPool bulletPool = new BulletPool(10);
     private final PlayerShip playerShip;
@@ -39,7 +39,7 @@ public class BulletManager {
         }
     }
 
-    public void updateBullets(boolean shooting) {
+    public void update(boolean shooting) {
         shoot(shooting);
         List<Bullet> bullets = bulletPool.getInUse();
 
@@ -54,15 +54,34 @@ public class BulletManager {
 
         }
     }
-
-    public void drawBullets(Graphics2D g2) {
+    @Override
+    public void draw(Graphics2D g2) {
 
         for (Bullet bullet : bulletPool.getInUse()) {
             bullet.draw(g2);
         }
     }
-
-    public List<Bullet> getBullet() {
+    @Override
+    public List<Bullet> getEntities() {
         return bulletPool.getInUse();
+    }
+
+
+
+    @Override
+    public void update() {
+
+    }
+
+    @Override
+    public void remove(Bullet entity) {
+
+    }
+
+
+
+    @Override
+    public void reset() {
+
     }
 }

@@ -42,8 +42,6 @@ public class GamePanel extends JPanel implements Runnable {
     private final BulletManager bulletManager;
     private final EnemyManager enemyManager;
 
-
-
     int score=0;
     //constructor
     private GamePanel(){
@@ -71,7 +69,7 @@ public class GamePanel extends JPanel implements Runnable {
         health=new Health();
 
         enemyManager = new EnemyManager();
-        bulletManager= new BulletManager(playerShip,enemyManager.getEnemyShip().get(1));
+        bulletManager= new BulletManager(playerShip,enemyManager.getEntities().get(0));
 
         //game thread
         gameThread=new Thread(this);
@@ -132,17 +130,17 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void update(){
         playerShip.update();
-        bulletManager.updateBullets(bulletHandling.isShooting());
+        bulletManager.update(bulletHandling.isShooting());
         enemyManager.update();
     }
 
     public void render(Graphics2D g2){
         playerShip.draw(g2);
-        bulletManager.drawBullets(g2);
+        bulletManager.draw(g2);
         health.draw(g2);
         enemyManager.draw(g2);
-        for(int i=enemyManager.getEnemyShip().size();i>0;i--) {
-            EnemyShip enemy= enemyManager.getEnemyShip().get(i-1);
+        for(int i=enemyManager.getEntities().size();i>0;i--) {
+            EnemyShip enemy= enemyManager.getEntities().get(i-1);
             if (detectCollision(playerShip, enemy)) {
                 Bang bang = new Bang(playerShip.getX(), playerShip.getY());
                 bang.draw(g2);
@@ -150,8 +148,8 @@ public class GamePanel extends JPanel implements Runnable {
                 gameThread = null;
             }
 
-            for (int j = bulletManager.getBullet().size(); j > 0; j--) {
-                Bullet bullet = bulletManager.getBullet().get(j - 1);
+            for (int j = bulletManager.getEntities().size(); j > 0; j--) {
+                Bullet bullet = bulletManager.getEntities().get(j - 1);
                 if (detectCollision(bullet, enemy)) {
                     Bang bang = new Bang(enemy.getX(), enemy.getY());
                     bang.draw(g2);
@@ -159,7 +157,7 @@ public class GamePanel extends JPanel implements Runnable {
                     enemy.setIsActive(false);
                     enemyManager.remove(enemy);
                     bullet.setActive(false);
-                    bulletManager.getBullet().remove(bullet);
+                    bulletManager.getEntities().remove(bullet);
                 }
             }
         }

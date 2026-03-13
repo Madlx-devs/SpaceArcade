@@ -20,13 +20,12 @@ private final List<EnemyShip> inUse = new ArrayList<>();
         EnemyShip ship;
         if(available.isEmpty()){
             ship= new EnemyShip();
-            inUse.add(ship);
         }else
         {
             ship= available.removeLast();
-            ship.reset();
-            inUse.add(ship);
+           // ship.reset();
         }
+        inUse.add(ship);
         return ship;
     }
 

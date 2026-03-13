@@ -1,9 +1,6 @@
 package assets;
 
 
-
-import Scenes.GamePanel;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 
@@ -75,6 +72,14 @@ public class EnemyShip extends Ship {
         this.setY(HEIGHT / 2);
         this.isActive = true;
     }
-
-
+     //toString method for debugging purposes
+    @Override
+    public String toString() {
+        return "enemyShip{" +
+                "id=" + id +
+                ", x=" + getX() +
+                ", y=" + getY() +
+                ", isActive=" + getIsActive() +
+                '}';
+    }
 }
