@@ -14,14 +14,13 @@ public class BulletManager  implements EntityManager<Bullet> {
 
     private final BulletPool bulletPool = new BulletPool(10);
     private final PlayerShip playerShip;
-    private final EnemyShip enemyShip;
     private final  int speed = 10;
 
     private long lastShotTime = 0;
 
-    public BulletManager(PlayerShip playerShip, EnemyShip enemyShip) {
+    public BulletManager(PlayerShip playerShip) {
         this.playerShip = playerShip;
-        this.enemyShip = enemyShip;
+
     }
 
     private void shoot(boolean shooting) {
@@ -57,9 +56,10 @@ public class BulletManager  implements EntityManager<Bullet> {
     @Override
     public void draw(Graphics2D g2) {
 
-        for (Bullet bullet : bulletPool.getInUse()) {
+      for (Bullet bullet : bulletPool.getInUse()) {
             bullet.draw(g2);
         }
+
     }
     @Override
     public List<Bullet> getEntities() {

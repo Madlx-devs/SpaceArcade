@@ -16,6 +16,7 @@ public class EnemyManager implements EntityManager<EnemyShip> {
     public void spawnEnemy() {
         EnemyShip enemyShip = pool.acquireObject();
         enemyShip.setIsActive(true);
+        pool.getInUse().add(enemyShip);
     }
 
     public void update() {

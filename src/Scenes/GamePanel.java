@@ -66,12 +66,13 @@ public class GamePanel extends JPanel implements Runnable {
 
         //game assets
         playerShip = new PlayerShip(this.keyHandler);
+        enemyManager = new EnemyManager();
+        //enemyShip= enemyManager.getEntities().getLast();
 
         //health initialization
         health = new Health();
 
-        enemyManager = new EnemyManager();
-        bulletManager = new BulletManager(playerShip.getX(), playerShip.getY(), enemyShip != null ? enemyShip.getX() : 0, enemyShip != null ? enemyShip.getY() : 0);
+        bulletManager = new BulletManager(playerShip);
 
         //game thread
         gameThread = new Thread(this);
@@ -124,10 +125,9 @@ public class GamePanel extends JPanel implements Runnable {
             while (delta >= 1) {
                 update();
                 delta--;
-                repaint();
-
             }
 
+            repaint();
         }
     }
 
